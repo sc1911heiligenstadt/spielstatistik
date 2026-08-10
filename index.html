@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>📊 Spielstatistik</title>
+<meta name="theme-color" content="#1a56a0" />
+<link rel="stylesheet" href="style.css?v=1.0" />
+</head>
+<body>
+
+  <div class="connect-screen" id="connect-screen">
+    <div class="card">
+      <h2>📊 Spielstatistik</h2>
+      <p id="connect-message">Bitte über die Tools-Übersicht anmelden, um die Spielstatistik zu sehen.</p>
+      <div class="btn-row">
+        <a class="btn" href="https://sc1911heiligenstadt.github.io/ToolsUebersicht/">Zur Tools-Übersicht</a>
+      </div>
+      <p class="muted" id="cloud-error" style="margin-top:14px;"></p>
+    </div>
+  </div>
+
+  <div id="app-shell" style="display:none;">
+    <header>
+      <h1>📊 Spielstatistik</h1>
+      <a href="https://sc1911heiligenstadt.github.io/ToolsUebersicht/" class="back-to-dashboard">← Zurück zum Dashboard</a>
+      <div class="header-right">
+        <label class="season-picker">Mannschaft
+          <select id="mannschaft-select"></select>
+        </label>
+        <label class="season-picker">Saison
+          <select id="saison-select"></select>
+        </label>
+        <span class="header-status" id="save-status"></span>
+        <span class="header-user" id="header-user"></span>
+        <img class="header-logo" src="https://sc1911heiligenstadt.github.io/logo.svg" alt="1. SC 1911 e.V. Heilbad Heiligenstadt" />
+      </div>
+    </header>
+
+    <nav>
+      <button data-tab="spiele" class="active">Spiele</button>
+      <button data-tab="matrix">Matrix</button>
+      <button data-tab="spieler">Spieler</button>
+      <button data-tab="auswertung">Auswertung</button>
+      <div class="nav-right">
+        <button data-tab="verwaltung" class="admin-only hidden">Verwaltung</button>
+        <button data-tab="info">Info</button>
+      </div>
+    </nav>
+
+    <main>
+
+      <!-- ================= Spiele ================= -->
+      <section class="tab-section active" id="tab-spiele">
+
+        <!-- ---- Listenansicht ---- -->
+        <div id="spiele-liste-view">
+          <div class="card hidden" id="jubilaeum-card">
+            <h2>🎉 Vor dem nächsten Spiel</h2>
+            <div id="jubilaeum-list"></div>
+          </div>
+          <div class="toolbar">
+            <div class="day-switch" id="wettbewerb-switch"></div>
+            <div class="toolbar-right">
+              <button class="btn small editor-only hidden" id="btn-neues-spiel">+ Spiel</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="list-row-header spiel-row">
+              <span>Spieltag</span><span>Datum</span><span>Gegner</span><span>Ort</span><span>Ergebnis</span>
+            </div>
+            <div class="list-rows" id="spiele-rows"></div>
+            <div class="empty-state hidden" id="spiele-empty">Für diesen Wettbewerb ist noch kein Spiel erfasst.</div>
+          </div>
+        </div>
+
+        <!-- ---- Spielbericht bearbeiten ---- -->
+        <div id="spiel-detail-view" class="hidden">
+          <div class="toolbar">
+            <button class="btn small secondary" id="btn-zurueck-liste">← Zurück zur Liste</button>
+            <div class="toolbar-right">
+              <button class="btn small editor-only hidden" id="btn-word-bericht">📄 Word-Bericht</button>
+              <button class="btn small danger admin-only hidden" id="btn-spiel-loeschen">Spiel löschen</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2 id="spiel-detail-titel">Spiel</h2>
+            <div class="form-grid">
+              <div class="form-field"><label>Wettbewerb</label><select id="sd-wettbewerb"></select></div>
+              <div class="form-field"><label>Runde / Spieltag</label><input type="text" id="sd-runde" placeholder="z. B. 3. ST" /></div>
+              <div class="form-field"><label>Nr.</label><input type="number" id="sd-nr" min="0" /></div>
+              <div class="form-field"><label>Datum</label><input type="date" id="sd-datum" /></div>
+              <div class="form-field"><label>Anstoß</label><input type="time" id="sd-anstoss" /></div>
+              <div class="form-field"><label>Heim / Auswärts</label>
+                <select id="sd-heim"><option value="1">Heimspiel</option><option value="0">Auswärtsspiel</option></select></div>
+              <div class="form-field"><label>Gegner</label><input type="text" id="sd-gegner" /></div>
+              <div class="form-field"><label>Ort</label><input type="text" id="sd-ort" placeholder="z. B. Sportplatz an der Wipper (Rasen)" /></div>
+              <div class="form-field"><label>Zuschauer</label><input type="number" id="sd-zuschauer" min="0" /></div>
+              <div class="form-field"><label>Spieldauer (Min.)</label><input type="number" id="sd-dauer" min="1" /></div>
+              <div class="form-field wide"><label>Schiedsrichter (mit Semikolon trennen)</label><input type="text" id="sd-schiri" placeholder="Name; Assistent; Assistent" /></div>
+              <div class="form-field wide"><label>Notiz (nur intern, steht nicht im Bericht)</label><input type="text" id="sd-notiz" /></div>
+            </div>
+            <p class="muted" id="sd-ergebnis-info"></p>
+          </div>
+
+          <div class="card">
+            <h2>Aufstellung</h2>
+            <div class="toolbar" style="margin-bottom:12px;">
+              <label class="inline-field">Formation
+                <select id="sd-formation"></select>
+              </label>
+              <div class="toolbar-right">
+                <button class="btn small secondary editor-only hidden" id="btn-formation-anwenden">Startelf neu verteilen</button>
+              </div>
+            </div>
+            <div class="aufstellung-wrap">
+              <div class="spielfeld" id="spielfeld"></div>
+              <div class="kader-spalten">
+                <div class="kader-block">
+                  <h3>Startelf <span class="badge" id="cnt-start">0</span></h3>
+                  <div class="kader-list" id="liste-start"></div>
+                </div>
+                <div class="kader-block">
+                  <h3>Bank <span class="badge" id="cnt-bank">0</span></h3>
+                  <div class="kader-list" id="liste-bank"></div>
+                </div>
+                <div class="kader-block">
+                  <h3>Nicht dabei</h3>
+                  <div class="kader-list" id="liste-fehlt"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Wechsel</h2>
+            <p class="muted hidden" id="wechsel-warnung"></p>
+            <div id="wechsel-list"></div>
+            <div class="btn-row" style="justify-content:flex-start;margin-top:8px;">
+              <button class="btn small secondary editor-only hidden" id="btn-wechsel-add">+ Wechsel</button>
+              <button class="btn small secondary hidden" id="btn-wechsel-paaren">Offene Wechsel zusammenlegen…</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Tore</h2>
+            <div id="tore-list"></div>
+            <button class="btn small secondary editor-only hidden" id="btn-tor-add" style="margin-top:8px;">+ Tor</button>
+          </div>
+
+          <div class="card">
+            <h2>Karten</h2>
+            <div id="karten-list"></div>
+            <button class="btn small secondary editor-only hidden" id="btn-karte-add" style="margin-top:8px;">+ Karte</button>
+          </div>
+
+          <div class="card">
+            <h2>Vorschau des Berichts</h2>
+            <div class="bericht-vorschau" id="bericht-vorschau"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= Matrix ================= -->
+      <section class="tab-section" id="tab-matrix">
+        <div class="toolbar">
+          <div class="day-switch" id="matrix-wettbewerb-switch"></div>
+          <div class="toolbar-right">
+            <span class="muted" id="matrix-hinweis"></span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="table-scroll">
+            <table class="data-table matrix-table" id="matrix-table">
+              <thead><tr id="matrix-head"></tr></thead>
+              <tbody id="matrix-body"></tbody>
+              <tfoot id="matrix-foot"></tfoot>
+            </table>
+          </div>
+          <div class="empty-state hidden" id="matrix-empty">Noch keine Spiele erfasst.</div>
+          <p class="muted" style="margin-top:12px;">
+            <strong>90</strong> durchgespielt · <strong>61(A)</strong> nach 61 Minuten ausgewechselt ·
+            <strong>29(E)</strong> eingewechselt, 29 Minuten gespielt · <strong>(GRK)/(RK)</strong> Platzverweis ·
+            <strong>?</strong> Wechsel unvollständig · <strong>/</strong> nicht im Kader.
+          </p>
+        </div>
+      </section>
+
+      <!-- ================= Spieler ================= -->
+      <section class="tab-section" id="tab-spieler">
+        <div id="spieler-liste-view">
+          <div class="card">
+            <div class="filter-bar">
+              <input type="search" id="spieler-suche" placeholder="Name suchen…" />
+              <label class="checkbox-row"><input type="checkbox" id="spieler-nur-kader" checked /> nur aktueller Kader</label>
+              <span class="filter-count" id="spieler-count"></span>
+            </div>
+            <div class="table-scroll">
+              <table class="data-table" id="spieler-table">
+                <thead><tr>
+                  <th>Spieler</th><th>Pos.</th><th class="num">Nr.</th>
+                  <th class="num">Spiele Saison</th><th class="num">Minuten</th><th class="num">Tore</th>
+                  <th class="num">Spiele gesamt</th><th class="num">Tore gesamt</th>
+                </tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <div class="empty-state hidden" id="spieler-empty">Kein Spieler gefunden.</div>
+          </div>
+        </div>
+        <div id="spieler-detail-view" class="hidden">
+          <div class="toolbar">
+            <button class="btn small secondary" id="btn-zurueck-spieler">← Zurück zur Liste</button>
+          </div>
+          <div id="spieler-detail"></div>
+        </div>
+      </section>
+
+      <!-- ================= Auswertung ================= -->
+      <section class="tab-section" id="tab-auswertung">
+        <div class="toolbar">
+          <div class="day-switch" id="auswertung-wettbewerb-switch"></div>
+        </div>
+        <div class="summary-cards" id="auswertung-cards"></div>
+        <div class="card">
+          <h2>Heim und Auswärts</h2>
+          <div class="table-scroll">
+            <table class="data-table" id="heim-auswaerts">
+              <thead><tr><th></th><th class="num">Spiele</th><th class="num">S</th><th class="num">U</th><th class="num">N</th><th class="num">Tore</th><th class="num">Gegentore</th><th class="num">Punkte</th><th class="num">Schnitt</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Tore nach Spielabschnitt</h2>
+          <div id="abschnitt-chart"></div>
+        </div>
+        <div class="card">
+          <h2>Bilanz je Formation</h2>
+          <div class="table-scroll">
+            <table class="data-table" id="formation-table">
+              <thead><tr><th>Formation</th><th class="num">Spiele</th><th class="num">Punkte</th><th class="num">Schnitt</th><th class="num">Tore</th><th class="num">Gegentore</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Ranglisten</h2>
+          <div class="rang-grid" id="rang-grid"></div>
+        </div>
+      </section>
+
+      <!-- ================= Verwaltung ================= -->
+      <section class="tab-section" id="tab-verwaltung">
+        <div class="card">
+          <h2>Mannschaften</h2>
+          <div id="mannschaft-list"></div>
+          <button class="btn small secondary admin-only hidden" id="btn-mannschaft-add" style="margin-top:8px;">+ Mannschaft</button>
+        </div>
+
+        <div class="card">
+          <h2>Saison</h2>
+          <div class="form-grid">
+            <div class="form-field"><label>Bezeichnung</label><input type="text" id="vw-saison-name" placeholder="2026/27" /></div>
+            <div class="form-field"><label>Liga</label><input type="text" id="vw-saison-liga" placeholder="Thüringenliga" /></div>
+            <div class="form-field"><label>Regel-Spieldauer (Min.)</label><input type="number" id="vw-saison-dauer" min="1" /></div>
+          </div>
+          <div class="btn-row admin-only hidden" style="justify-content:flex-start;">
+            <button class="btn small" id="btn-saison-neu">Neue Saison…</button>
+            <button class="btn small secondary" id="btn-saison-duplizieren">Kader übernehmen…</button>
+            <button class="btn small danger" id="btn-saison-loeschen">Saison löschen…</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Wettbewerbe dieser Saison</h2>
+          <p class="muted" style="margin-bottom:12px;">„Zählt in die Vereinsbilanz“ steuert, ob die Spiele in die Gesamtzahlen des Spielers einfließen. Testspiele bewusst nicht.</p>
+          <div id="wettbewerb-list"></div>
+          <button class="btn small secondary admin-only hidden" id="btn-wettbewerb-add" style="margin-top:8px;">+ Wettbewerb</button>
+        </div>
+
+        <div class="card">
+          <h2>Kader dieser Saison</h2>
+          <p class="muted" style="margin-bottom:12px;">Nur Spieler im Saisonkader erscheinen in Matrix und Spielbericht.</p>
+          <div id="kader-liste" class="checkbox-list"></div>
+        </div>
+
+        <div class="card">
+          <h2>Spieler-Stammdaten &amp; Vereinsbilanz</h2>
+          <p class="muted" style="margin-bottom:12px;">
+            „Vorher“ ist der Stand <em>vor</em> der ersten hier erfassten Saison. Alles Weitere zählt die App dazu.
+            Die Zahl hängt am Spieler — verrutschen kann sie nicht.
+          </p>
+          <div class="table-scroll">
+            <table class="data-table" id="stamm-table">
+              <thead><tr>
+                <th>Vorname</th><th>Nachname</th><th>Pos.</th><th class="num">Nr.</th>
+                <th class="num">Spiele vorher</th><th class="num">Tore vorher</th>
+                <th class="num">gesamt</th><th></th>
+              </tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <button class="btn small secondary admin-only hidden" id="btn-spieler-add" style="margin-top:8px;">+ Spieler</button>
+        </div>
+
+        <div class="card">
+          <h2>Nachträge ohne Spielzuordnung</h2>
+          <p class="muted" style="margin-bottom:12px;">
+            Aus der alten Excel übernommene Tore und Gelbe Karten, die dort nur als Saison-Summe standen.
+            Sie zählen in alle Bilanzen mit, lassen sich aber keinem einzelnen Spiel zuordnen.
+          </p>
+          <div id="nachtrag-list"></div>
+        </div>
+
+        <div class="card">
+          <h2>Daten-Import</h2>
+          <p class="muted" style="margin-bottom:14px;">Einmaliger Import einer aufbereiteten JSON-Datei (Spieler + komplette Saison). Vorhandene Spieler werden anhand des Namens zusammengeführt.</p>
+          <button class="btn success admin-only hidden" id="btn-import">Datendatei auswählen…</button>
+          <input type="file" id="import-file" accept="application/json" class="hidden" />
+          <p class="muted" id="import-status" style="margin-top:10px;"></p>
+        </div>
+      </section>
+
+      <!-- ================= Info ================= -->
+      <section class="tab-section" id="tab-info">
+        <div class="card">
+          <h2>Über die Spielstatistik <span class="version-badge" id="version-badge-2"></span></h2>
+          <p class="muted">Einsätze, Minuten, Tore und Karten der Mannschaften — Saison für Saison, mit Vereinsbilanz über die Jahre und fertigem Spielbericht als Word-Datei.</p>
+          <div class="form-grid" id="meta-view"></div>
+          <p class="muted" id="info-user" style="margin-top:10px;"></p>
+        </div>
+        <div class="card">
+          <h2>Änderungen</h2>
+          <div id="changelog-list"></div>
+        </div>
+        <div class="card" id="ds-info-karte">
+          <h2>Datenschutz</h2>
+          <p>Dieses Werkzeug gehört zu den internen Anwendungen des
+          1. SC 1911 Heiligenstadt. Die hier erfassten Daten werden
+          ausschließlich für die Vereinsarbeit verwendet und liegen auf Servern
+          in Deutschland, die ein Auftragsverarbeiter für den Verein betreibt.
+          Eine Weitergabe an Dritte findet nur statt, soweit sie für den
+          jeweiligen Zweck erforderlich oder gesetzlich vorgeschrieben ist.</p>
+          <p>Angaben zu Verletzung und Krankheit werden ausschließlich zur
+          Einsatzplanung erfasst. Die Anwendung ist deshalb nur für einen
+          festgelegten Personenkreis sichtbar, und im Spielbericht erscheinen
+          diese Angaben nicht.</p>
+          <p>Verantwortlich ist der 1. SC 1911 Heiligenstadt, Leineberg 2,
+          37308 Heilbad Heiligenstadt, Telefon 03606 612206,
+          <a href="mailto:info@sc1911-heiligenstadt.de">info@sc1911-heiligenstadt.de</a>.
+          Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung,
+          Datenübertragbarkeit und Widerspruch lassen sich unter dieser
+          Anschrift geltend machen. Beschwerden nimmt der Thüringer
+          Landesbeauftragte für den Datenschutz und die Informationsfreiheit
+          entgegen.</p>
+          <p><a href="https://www.sc1911-heiligenstadt.de/datenschutz/" target="_blank" rel="noopener">Datenschutzerklärung des Vereins</a>
+          &middot;
+          <a href="https://www.sc1911-heiligenstadt.de/impressum-2/" target="_blank" rel="noopener">Impressum</a></p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ---------- Matrix-Zelle bearbeiten ---------- -->
+  <div class="modal-overlay hidden" id="zelle-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="zelle-modal-titel">Einsatz</h2>
+        <button class="modal-close" id="zelle-modal-close" aria-label="Schließen">×</button>
+      </div>
+      <div class="modal-body">
+        <p class="muted" id="zelle-kontext" style="margin-bottom:14px;"></p>
+        <div class="form-grid">
+          <div class="form-field"><label>Rolle</label><select id="zm-rolle"></select></div>
+          <div class="form-field" id="zm-feld-ein"><label>Eingewechselt in Minute</label><input type="number" id="zm-ein" min="0" /></div>
+          <div class="form-field" id="zm-feld-aus"><label>Ausgewechselt in Minute</label><input type="number" id="zm-aus" min="0" placeholder="leer = bis zum Ende" /></div>
+          <div class="form-field" id="zm-feld-grund"><label>Grund</label><select id="zm-grund"></select></div>
+          <div class="form-field wide" id="zm-feld-grundtext"><label>Notiz zum Grund</label><input type="text" id="zm-grundtext" /></div>
+        </div>
+        <p class="muted" id="zm-hinweis"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn danger" id="btn-zelle-leeren">Nicht im Kader</button>
+        <div class="btn-row">
+          <button class="btn secondary" id="btn-zelle-abbrechen">Abbrechen</button>
+          <button class="btn success" id="btn-zelle-speichern">Übernehmen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="config.js?v=1.0"></script>
+  <script src="db.js?v=1.0"></script>
+  <script src="stats.js?v=1.0"></script>
+  <script src="aufstellung.js?v=1.0"></script>
+  <script src="docx-spielbericht.js?v=1.0"></script>
+  <script src="app.js?v=1.0"></script>
+</body>
+</html>
