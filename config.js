@@ -37,8 +37,8 @@ const KARTEN_ARTEN = [
   { id: "rot", label: "Rote Karte", kurz: "RK", farbe: "#c0392b" }
 ];
 // Ein Platzverweis beendet den Einsatz, zaehlt aber NICHT als Auswechslung —
-// so rechnet auch das bisherige Excel (Wolanski 63(GRK) steckt nicht in seinen
-// sechs Auswechslungen).
+// so rechnet auch das bisherige Excel (ein 63(GRK) eines Spielers steckt nicht
+// in seinen Auswechslungen).
 const PLATZVERWEIS_ARTEN = ["gelbrot", "rot"];
 
 const TOR_ARTEN = [

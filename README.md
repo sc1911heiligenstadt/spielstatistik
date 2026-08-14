@@ -13,7 +13,7 @@ Einsätze, Minuten, Tore und Karten der Mannschaften — Saison für Saison. Ein
 
 ## Warum nur einmal getippt wird
 
-In der alten Arbeitsweise stand dieselbe Tatsache an zwei Orten: der Word-Bericht sagte „Roth für Michalek (61. Minute)", die Excel sagte bei Michalek `61(A)` und bei Roth `29(E)`. Nichts glich das ab. Hier ist der Wechsel die einzige Quelle — Minuten, Einsätze und Ein-/Auswechslungen werden daraus abgeleitet, nie zusätzlich gespeichert.
+In der alten Arbeitsweise stand dieselbe Tatsache an zwei Orten: der Word-Bericht sagte „Spieler B für Spieler A (61. Minute)", die Excel sagte bei Spieler A `61(A)` und bei Spieler B `29(E)`. Nichts glich das ab. Hier ist der Wechsel die einzige Quelle — Minuten, Einsätze und Ein-/Auswechslungen werden daraus abgeleitet, nie zusätzlich gespeichert.
 
 Aus demselben Grund hängt die Vereinsbilanz am Spieler und nicht an einer Spaltenposition: In der Excel war die Zeile mit den Karriere-Zahlen einmal nicht mitverschoben worden, seitdem stand ein Spieler auf den 280 Spielen eines anderen.
 
