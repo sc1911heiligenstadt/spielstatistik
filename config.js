@@ -132,6 +132,18 @@ const VEREIN_NAME = "Heiligenstadt";
 
 const APP_CHANGELOG = [
   {
+    version: "1.1",
+    groups: [
+      {
+        title: "Startet schneller",
+        items: [
+          "Die ZIP-Bibliothek, die der Word-Spielbericht braucht, wird erst geladen, wenn wirklich ein Bericht entsteht. Vorher kam sie bei jedem Öffnen der Seite mit — das waren 28 KB pro Aufruf, obwohl man meist nur Zahlen anschaut.",
+          "Am Ablauf ändert sich nichts: beim ersten Bericht lädt sie automatisch nach. Nur wenn dabei keine Internetverbindung besteht, sagt die App es jetzt deutlich."
+        ]
+      }
+    ]
+  },
+  {
     version: "1.0",
     groups: [
       {

@@ -164,10 +164,29 @@ const DocxSpielbericht = (() => {
   // ---------- Datei bauen ----------
   // `grafik` ist ein PNG-Blob (oder null). Ohne Grafik entfaellt der Bildteil
   // komplett — eine Beziehung auf eine fehlende Datei wuerde Word beanstanden.
+  // JSZip steht bewusst NICHT fest im <head>: gebraucht wird es nur hier, beim
+  // Erzeugen eines Spielberichts, kostete dort aber 28 KB bei JEDEM Seitenaufbau.
+  // Erster Bedarf laedt nach, jeder weitere Aufruf bekommt dieselbe Promise
+  // (Muster aus raumnutzung/app.js ladeJsZip).
+  let _jsZipLadevorgang = null;
+  function ladeJsZip() {
+    if (typeof JSZip !== "undefined") return Promise.resolve();
+    if (_jsZipLadevorgang) return _jsZipLadevorgang;
+    _jsZipLadevorgang = new Promise((resolve, reject) => {
+      const s = document.createElement("script");
+      s.src = "https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js";
+      s.onload = () => resolve();
+      s.onerror = () => {
+        _jsZipLadevorgang = null; // naechster Versuch darf es erneut probieren
+        reject(new Error("ZIP-Bibliothek konnte nicht geladen werden (Internetverbindung noetig)."));
+      };
+      document.head.appendChild(s);
+    });
+    return _jsZipLadevorgang;
+  }
+
   async function erzeuge(spiel, ctx, grafik) {
-    if (typeof JSZip === "undefined") {
-      throw new Error("JSZip nicht geladen — bitte die Seite neu laden.");
-    }
+    await ladeJsZip();
     const koerper = [];
     koerper.push(textAbsatz(ueberschrift(spiel), { fett: true, groesse: 32, zentriert: true, abstand: 0 }));
     koerper.push(textAbsatz(ergebnisZeile(spiel), { fett: true, groesse: 32, zentriert: true, abstand: 240 }));
