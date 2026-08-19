@@ -214,6 +214,20 @@ const Stats = (() => {
     return alle.filter((s) => s.wettbewerbId === wettbewerbId);
   }
 
+  // ---------- Welche Wettbewerbe zaehlen? ----------
+  // `zaehltKarriere` ist die einzige Achse dafuer, ob ein Wettbewerb in eine
+  // Bilanz eingeht. Testspiele stehen per Voreinstellung draussen: sie sollen
+  // weder die Vereinsbilanz noch die Saisonzahlen im Spieler-Reiter aufblaehen.
+  // Wer die Testspiele einzeln sehen will, waehlt sie als Wettbewerb aus —
+  // dort werden sie weiterhin voll gerechnet.
+  function zaehlendeWettbewerbIds(saison) {
+    return ((saison && saison.wettbewerbe) || []).filter((w) => w.zaehltKarriere).map((w) => w.id);
+  }
+  function zaehlendeSpiele(saison) {
+    const ids = zaehlendeWettbewerbIds(saison);
+    return ((saison && saison.spiele) || []).filter((s) => ids.indexOf(s.wettbewerbId) !== -1);
+  }
+
   // ---------- Karriere ueber alle Saisons ----------
   // Zaehlt nur Wettbewerbe mit `zaehltKarriere`. `spieler.start` ist der Stand
   // VOR der ersten erfassten Saison und haengt am Spieler — nicht an einer
@@ -221,9 +235,9 @@ const Stats = (() => {
   function karriere(spieler, saisons) {
     const b = leereBilanz();
     for (const saison of saisons) {
-      const ids = (saison.wettbewerbe || []).filter((w) => w.zaehltKarriere).map((w) => w.id);
+      const ids = zaehlendeWettbewerbIds(saison);
       if (!ids.length) continue;
-      const spiele = (saison.spiele || []).filter((s) => ids.indexOf(s.wettbewerbId) !== -1);
+      const spiele = zaehlendeSpiele(saison);
       const teil = bilanzSpieler(spiele, spieler.id, saison);
       addNachtrag(teil, saison.nachtraege, spieler.id, ids);
       for (const k of ["spiele", "minuten", "startelf", "ein", "aus", "kader",
@@ -317,6 +331,7 @@ const Stats = (() => {
     clampMinute, spieldauer, einsatz, matrixText,
     ergebnis, ergebnisText, punkte, istGespielt, offeneWechsel,
     leereBilanz, bilanzSpieler, addNachtrag, einsatzquote, spieleDerSaison,
+    zaehlendeWettbewerbIds, zaehlendeSpiele,
     karriere, jubilaeen, teamBilanz, rangliste,
     ABSCHNITTE, abschnittLabel
   };

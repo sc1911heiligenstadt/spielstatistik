@@ -91,20 +91,18 @@ const DocxSpielbericht = (() => {
     return `${t}.${m}.${j}`;
   }
 
+  // "Wolanski (GK, 34.min), Roth (RK, 88.min)" — jede Karte einzeln mit ihrer
+  // Minute, in derselben Schreibweise wie die Wechsel. Die fruehere Sammelform
+  // ("beide GK") sparte Worte, hatte aber keinen Platz fuer die Minute.
+  // Ohne erfasste Minute bleibt es bei "(GK)" — eine geratene 0. waere falsch.
   function karten(spiel, ctx) {
     const liste = (spiel.karten || []).slice().sort((a, b) => a.minute - b.minute);
     if (!liste.length) return "";
-    const arten = Array.from(new Set(liste.map((k) => k.art)));
-    if (arten.length === 1) {
-      const kurz = (KARTEN_ARTEN.find((k) => k.id === arten[0]) || {}).kurz;
-      const namen = liste.map((k) => nachname(ctx, k.spielerId));
-      const zusatz = namen.length === 1 ? `(${kurz})`
-        : namen.length === 2 ? `(beide ${kurz})` : `(alle ${kurz})`;
-      return `${namen.join(", ")} ${zusatz}`;
-    }
     return liste.map((k) => {
       const kurz = (KARTEN_ARTEN.find((x) => x.id === k.art) || {}).kurz;
-      return `${nachname(ctx, k.spielerId)} (${kurz})`;
+      const m = Number(k.minute);
+      const minute = isFinite(m) && m > 0 ? `, ${m}.min` : "";
+      return `${nachname(ctx, k.spielerId)} (${kurz}${minute})`;
     }).join(", ");
   }
 

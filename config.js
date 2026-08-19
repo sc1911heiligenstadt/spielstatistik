@@ -132,6 +132,31 @@ const VEREIN_NAME = "Heiligenstadt";
 
 const APP_CHANGELOG = [
   {
+    version: "1.2",
+    groups: [
+      {
+        title: "Reiter „Spieler“ zeigt mehr — und rechnet sauberer",
+        items: [
+          "Zwei neue Spalten: Ein- und Auswechslungen der laufenden Saison. Dazu eine Spalte Karten mit Gelb / Gelb-Rot / Rot.",
+          "Testspiele zählen in dieser Übersicht nicht mehr mit. Vorher steckten sie in den Saison-Spalten drin, in „Spiele gesamt“ aber nicht — dieselbe Zeile zeigte damit zwei Zahlen, die man nicht miteinander vergleichen konnte.",
+          "Verloren geht nichts: Wer die Testspiele sehen will, findet sie beim einzelnen Spieler als eigene Zeile und im Reiter „Matrix“, wenn man dort den Wettbewerb auswählt."
+        ]
+      },
+      {
+        title: "Word-Spielbericht",
+        items: [
+          "Bei den Karten steht jetzt die Minute dabei — in derselben Schreibweise wie bei den Wechseln, also „Wolanski (GK, 34.min)“."
+        ]
+      },
+      {
+        title: "Aufstellung",
+        items: [
+          "In den Listen Startelf, Bank und „Nicht dabei“ steht der Name jetzt immer oben und die Knöpfe darunter. Vorher entschied die Länge des Namens darüber, ob die Knöpfe daneben oder darunter rutschten — die Liste sah dadurch unruhig aus."
+        ]
+      }
+    ]
+  },
+  {
     version: "1.1",
     groups: [
       {

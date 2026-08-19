@@ -812,19 +812,36 @@ function renderSpielerTab() {
     return true;
   }).sort((a, b) => spielerName(a).localeCompare(spielerName(b), "de"));
 
-  const saisonSpiele = s.spiele;
-  const alleWIds = s.wettbewerbe.map((w) => w.id);
+  // Nur Wettbewerbe, die in die Bilanz eingehen — Testspiele bleiben draussen.
+  // Sonst stuende in derselben Zeile eine Saisonzahl MIT und eine Gesamtzahl
+  // OHNE Testspiele, und beide waeren nicht miteinander vergleichbar.
+  const saisonSpiele = Stats.zaehlendeSpiele(s);
+  const zaehlWIds = Stats.zaehlendeWettbewerbIds(s);
   el("spieler-table").querySelector("tbody").innerHTML = alle.map((p) => {
     const b = Stats.bilanzSpieler(saisonSpiele, p.id, s);
-    Stats.addNachtrag(b, s.nachtraege, p.id, alleWIds);
+    Stats.addNachtrag(b, s.nachtraege, p.id, zaehlWIds);
     const k = Stats.karriere(p, appData.saisons);
+    const kartenSumme = b.gelb + b.gelbrot + b.rot;
+    // Ein Einsatz mit der Rolle "eingewechselt", zu dem die Wechselminute fehlt,
+    // wird bewusst NICHT mitgezaehlt (eine geratene Minute waere schlimmer).
+    // Bisher sah man das nur in der Matrix als "?" — hier stand kommentarlos eine
+    // zu niedrige Zahl, und es sah aus, als zaehle die App nicht mit.
+    const warnText = b.unvollstaendig
+      ? `${b.unvollstaendig} Einsatz${b.unvollstaendig === 1 ? "" : "e"} ohne Wechselminute — ` +
+        `zählt weder hier noch in „Spiele gesamt“ mit. In der Matrix steht dort ein ?.`
+      : "";
+    const warnung = warnText ? ` <span class="badge warn" title="${escapeHtml(warnText)}">?</span>` : "";
     return `<tr class="data-row" data-spieler="${escapeHtml(p.id)}">
       <td class="strong">${escapeHtml(spielerName(p))}</td>
       <td>${escapeHtml(p.position || "—")}</td>
       <td class="num">${escapeHtml(p.nummer || "—")}</td>
-      <td class="num">${ein(b.spiele)}</td>
+      <td class="num">${ein(b.spiele)}${warnung}</td>
       <td class="num">${ein(b.minuten)}</td>
       <td class="num">${ein(b.tore)}</td>
+      <td class="num">${ein(b.ein)}</td>
+      <td class="num">${ein(b.aus)}</td>
+      <td class="num${kartenSumme ? "" : " muted"}" title="Gelb / Gelb-Rot / Rot">${
+        kartenSumme ? `${ein(b.gelb)} / ${ein(b.gelbrot)} / ${ein(b.rot)}` : "—"}</td>
       <td class="num strong">${ein(k.spiele)}</td>
       <td class="num strong">${ein(k.tore)}</td>
     </tr>`;

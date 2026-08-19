@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>📊 Spielstatistik</title>
 <meta name="theme-color" content="#1a56a0" />
-<link rel="stylesheet" href="style.css?v=1.0" />
+<link rel="stylesheet" href="style.css?v=1.1" />
 </head>
 <body>
 
@@ -201,12 +201,19 @@
                 <thead><tr>
                   <th>Spieler</th><th>Pos.</th><th class="num">Nr.</th>
                   <th class="num">Spiele Saison</th><th class="num">Minuten</th><th class="num">Tore</th>
+                  <th class="num">Ein</th><th class="num">Aus</th><th class="num">Karten</th>
                   <th class="num">Spiele gesamt</th><th class="num">Tore gesamt</th>
                 </tr></thead>
                 <tbody></tbody>
               </table>
             </div>
             <div class="empty-state hidden" id="spieler-empty">Kein Spieler gefunden.</div>
+            <p class="muted" style="margin-top:12px;">
+              <strong>Ein</strong> / <strong>Aus</strong> = Ein- und Auswechslungen ·
+              <strong>Karten</strong> = Gelb / Gelb-Rot / Rot.
+              Testspiele zählen hier nirgends mit — sie stehen beim einzelnen Spieler
+              als eigene Zeile und im Reiter „Matrix“, wenn man sie dort auswählt.
+            </p>
           </div>
         </div>
         <div id="spieler-detail-view" class="hidden">
@@ -395,11 +402,11 @@
   <!-- JSZip haengt bewusst NICHT hier: docx-spielbericht.js laedt es beim ersten
        Bedarf nach (ladeJsZip). Fest eingebunden kostete es 28 KB bei jedem
        Seitenaufbau, obwohl es nur der Word-Bericht braucht. -->
-  <script src="config.js?v=1.2"></script>
+  <script src="config.js?v=1.3"></script>
   <script src="db.js?v=1.0"></script>
-  <script src="stats.js?v=1.0"></script>
+  <script src="stats.js?v=1.1"></script>
   <script src="aufstellung.js?v=1.0"></script>
-  <script src="docx-spielbericht.js?v=1.1"></script>
-  <script src="app.js?v=1.0"></script>
+  <script src="docx-spielbericht.js?v=1.2"></script>
+  <script src="app.js?v=1.1"></script>
 </body>
 </html>

@@ -375,9 +375,12 @@ body.can-edit .list-row:hover { background: var(--blue-light); }
 .kader-block h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.4px; color: var(--muted); margin-bottom: 8px; }
 .kader-block .badge.warn { background: var(--red); }
 .kader-list { display: flex; flex-direction: column; gap: 5px; }
+/* Immer zweizeilig: Name oben, Knoepfe darunter. Vorher entschied die Laenge
+   des Namens darueber, ob die Knoepfe daneben oder darunter landeten — bei
+   gemischten Namen sprang die Liste dadurch sichtbar. */
 .kader-row {
-  display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;
-  padding: 6px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--white); font-size: 14px;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 6px;
+  padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--white); font-size: 14px;
 }
 .kader-row .kl-nr { color: var(--muted); font-size: 12px; }
 .kader-actions { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
