@@ -132,6 +132,18 @@ const VEREIN_NAME = "Heiligenstadt";
 
 const APP_CHANGELOG = [
   {
+    version: "1.5",
+    groups: [
+      {
+        title: "Beim Sitzungsende wird der Bildschirm geräumt",
+        items: [
+          "Beim Sitzungsende wurde die Seite bereits geleert. Der Einsatz-Dialog steht aber daneben und blieb mit Spielernamen und Minuten stehen. Jetzt wird er mitgeleert.",
+          "Der Hinweis erscheint außerdem an jeder Stelle, an der die Anmeldung wegfällt — vorher nur bei einem Teil der Wege."
+        ]
+      }
+    ]
+  },
+  {
     version: "1.4",
     groups: [
       {
