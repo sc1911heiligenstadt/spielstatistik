@@ -334,7 +334,14 @@
       <section class="tab-section" id="tab-info">
         <div class="card">
           <h2>Über die Spielstatistik <span class="version-badge" id="version-badge-2"></span></h2>
-          <p class="muted">Einsätze, Minuten, Tore und Karten der Mannschaften — Saison für Saison, mit Vereinsbilanz über die Jahre und fertigem Spielbericht als Word-Datei.</p>
+          <p class="muted">
+            Einsätze, Minuten, Tore und Karten der Mannschaften — Saison für Saison, mit
+            Vereinsbilanz über die Jahre und fertigem Spielbericht als Word-Datei. Ein Spiel wird genau
+            einmal erfasst: Startelf und Bank, Wechsel mit Minute, Tore mit Schütze, Karten und der
+            Grund, warum jemand fehlte. Alles Weitere rechnet die App daraus — die Matrix aus
+            Spieltagen und Spielern samt Summen, die Ranglisten, die Bilanz je Formation und die
+            Trennung nach Heim und Auswärts. Sie löst die bisherigen Excel-Dateien ab.
+          </p>
           <div class="form-grid" id="meta-view"></div>
           <p class="muted" id="info-user" style="margin-top:10px;"></p>
         </div>
@@ -402,7 +409,7 @@
   <!-- JSZip haengt bewusst NICHT hier: docx-spielbericht.js laedt es beim ersten
        Bedarf nach (ladeJsZip). Fest eingebunden kostete es 28 KB bei jedem
        Seitenaufbau, obwohl es nur der Word-Bericht braucht. -->
-  <script src="config.js?v=1.7"></script>
+  <script src="config.js?v=1.8"></script>
   <script src="db.js?v=1.1"></script>
   <script src="stats.js?v=1.1"></script>
   <script src="aufstellung.js?v=1.0"></script>
