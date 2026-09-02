@@ -132,97 +132,12 @@ const VEREIN_NAME = "Heiligenstadt";
 
 const APP_CHANGELOG = [
   {
-    version: "1.6",
-    groups: [
-      {
-        title: "Der Reiter „Info“ erklärt jetzt, was die App wirklich tut",
-        items: [
-          "Dort stand bisher ein einzelner Satz. Jetzt steht da, wofür die einzelnen Reiter da sind, was die App mit den Eingaben macht und wo etwas anderes hingehört.",
-          "Am Funktionsumfang ändert sich nichts — nur an der Beschreibung."
-        ]
-      }
-    ]
-  },
-  {
-    version: "1.5",
-    groups: [
-      {
-        title: "Beim Sitzungsende wird der Bildschirm geräumt",
-        items: [
-          "Beim Sitzungsende wurde die Seite bereits geleert. Der Einsatz-Dialog steht aber daneben und blieb mit Spielernamen und Minuten stehen. Jetzt wird er mitgeleert.",
-          "Der Hinweis erscheint außerdem an jeder Stelle, an der die Anmeldung wegfällt — vorher nur bei einem Teil der Wege."
-        ]
-      }
-    ]
-  },
-  {
-    version: "1.4",
-    groups: [
-      {
-        title: "Beim Abmelden bleibt nichts stehen",
-        items: [
-          "Läuft die Anmeldung ab, während die App offen ist — zum Beispiel weil ein Speichern nach längerer Pause fehlschlägt —, erscheint wie bisher der Hinweis „bitte neu anmelden“.",
-          "Neu ist: der Bildschirm dahinter wird jetzt auch geleert. Vorher wurde er nur unsichtbar gemacht, und alles Angezeigte blieb im Browser stehen — sichtbar für jeden, der sich an denselben Rechner setzt und nachschaut.",
-          "Für dich ändert sich nichts: der Weg zurück war schon immer ein Neuladen der Seite."
-        ]
-      }
-    ]
-  },
-  {
-    version: "1.3",
-    groups: [
-      {
-        title: "Am Handy",
-        items: [
-          "Bisher brach die Reiterleiste selbst um, die rechte Reiter-Gruppe darin aber nicht: Sie rutschte als ein Stück in die zweite Zeile und lief dort weiter über den rechten Rand hinaus. Jetzt bricht auch sie um, sobald sie zu breit wird. Zu sehen ist das nur, wenn genug Reiter nebeneinanderstehen — bis dahin sieht alles aus wie bisher."
-        ]
-      }
-    ]
-  },
-  {
-    version: "1.2",
-    groups: [
-      {
-        title: "Reiter „Spieler“ zeigt mehr — und rechnet sauberer",
-        items: [
-          "Zwei neue Spalten: Ein- und Auswechslungen der laufenden Saison. Dazu eine Spalte Karten mit Gelb / Gelb-Rot / Rot.",
-          "Testspiele zählen in dieser Übersicht nicht mehr mit. Vorher steckten sie in den Saison-Spalten drin, in „Spiele gesamt“ aber nicht — dieselbe Zeile zeigte damit zwei Zahlen, die man nicht miteinander vergleichen konnte.",
-          "Verloren geht nichts: Wer die Testspiele sehen will, findet sie beim einzelnen Spieler als eigene Zeile und im Reiter „Matrix“, wenn man dort den Wettbewerb auswählt."
-        ]
-      },
-      {
-        title: "Word-Spielbericht",
-        items: [
-          "Bei den Karten steht jetzt die Minute dabei — in derselben Schreibweise wie bei den Wechseln, also „Wolanski (GK, 34.min)“."
-        ]
-      },
-      {
-        title: "Aufstellung",
-        items: [
-          "In den Listen Startelf, Bank und „Nicht dabei“ steht der Name jetzt immer oben und die Knöpfe darunter. Vorher entschied die Länge des Namens darüber, ob die Knöpfe daneben oder darunter rutschten — die Liste sah dadurch unruhig aus."
-        ]
-      }
-    ]
-  },
-  {
-    version: "1.1",
-    groups: [
-      {
-        title: "Startet schneller",
-        items: [
-          "Die ZIP-Bibliothek, die der Word-Spielbericht braucht, wird erst geladen, wenn wirklich ein Bericht entsteht. Vorher kam sie bei jedem Öffnen der Seite mit — das waren 28 KB pro Aufruf, obwohl man meist nur Zahlen anschaut.",
-          "Am Ablauf ändert sich nichts: beim ersten Bericht lädt sie automatisch nach. Nur wenn dabei keine Internetverbindung besteht, sagt die App es jetzt deutlich."
-        ]
-      }
-    ]
-  },
-  {
     version: "1.0",
     groups: [
       {
         title: "Spielstatistik",
         items: [
-          "Löst die bisherigen Excel-Dateien „Statistik Saison …“ ab: Einsätze, Minuten, Tore und Karten der 1. Mannschaft, Saison für Saison.",
+          "Löst die bisherigen Excel-Dateien „Statistik Saison …“ ab: Einsätze, Minuten, Tore und Karten der Mannschaften, Saison für Saison.",
           "Ein Spiel wird genau einmal erfasst. Spiele, Minuten, Ein- und Auswechslungen rechnet die App daraus selbst aus — nichts wird doppelt getippt.",
           "Mehrere Mannschaften und mehrere Saisons, umschaltbar in der Kopfzeile.",
           "Wettbewerbe je Saison frei anlegbar: Liga, Landespokal, Testspiele, weitere Pokale. Je Wettbewerb eine eigene Statistik.",
@@ -234,7 +149,9 @@ const APP_CHANGELOG = [
         items: [
           "Eine Maske je Spiel: Startelf und Bank anhaken, Wechsel mit Minute, Tore mit Minute und Schütze, Karten, dazu je fehlendem Spieler ein Grund.",
           "Die Aufstellung wird auf einem Spielfeld gesetzt — Formation auswählen, Spieler landen automatisch auf den Plätzen und lassen sich verschieben.",
-          "Der Spielstand ergibt sich aus den erfassten Toren; ein falsch getipptes Ergebnis kann es gar nicht geben."
+          "In den Listen Startelf, Bank und „Nicht dabei“ steht der Name oben und die Knöpfe darunter, unabhängig von der Länge des Namens.",
+          "Der Spielstand ergibt sich aus den erfassten Toren; ein falsch getipptes Ergebnis kann es gar nicht geben.",
+          "Ein Platzverweis beendet den Einsatz, zählt aber nicht als Auswechslung — so wie im alten Excel gerechnet."
         ]
       },
       {
@@ -242,25 +159,44 @@ const APP_CHANGELOG = [
         items: [
           "Die gewohnte Tabelle Spieltag × Spieler mit „90“, „61(A)“ und „29(E)“ — nur dass die Summenzeilen sich selbst rechnen.",
           "Einzelne Zellen lassen sich direkt in der Matrix ändern, für Nachträge.",
-          "Ein Wechsel, dessen Gegenstück noch fehlt, wird als offen markiert statt stillschweigend geschluckt."
+          "Ein Wechsel, dessen Gegenstück noch fehlt, wird als offen markiert statt stillschweigend geschluckt.",
+          "Über den Wettbewerbs-Umschalter lassen sich auch die Testspiele einzeln ansehen."
+        ]
+      },
+      {
+        title: "Der Reiter „Spieler“",
+        items: [
+          "Je Spieler eine Zeile: Spiele und Minuten der Saison, Tore, Ein- und Auswechslungen, Karten mit Gelb, Gelb-Rot und Rot, dazu Spiele und Tore beim Verein insgesamt.",
+          "Testspiele bleiben in dieser Übersicht außen vor, damit die Saison-Spalten und die Gesamtzahlen dieselbe Grundlage haben. Beim einzelnen Spieler stehen sie als eigene Zeile.",
+          "Ein Klick öffnet den Steckbrief über alle Saisons: Einsätze, Minuten, Tore, Karten, Ausfälle und die Bilanz beim Verein."
         ]
       },
       {
         title: "Word-Spielbericht",
         items: [
           "Aus den erfassten Daten fällt der fertige Spielbericht als Word-Datei heraus: Ergebnis, Datum, Ort, Karten, Tore, Wechsel, Schiedsrichter, Zuschauer und die Aufstellungsgrafik.",
+          "Bei den Karten steht die Minute dabei, in derselben Schreibweise wie bei den Wechseln — also „Wolanski (GK, 34.min)“.",
           "Bericht und Statistik können nicht auseinanderlaufen, weil beide aus derselben Eingabe stammen.",
-          "Ausfallgründe wie „verletzt“ oder „krank“ stehen nie im Bericht."
+          "Ausfallgründe wie „verletzt“ oder „krank“ stehen nie im Bericht.",
+          "Die ZIP-Bibliothek für die Word-Datei wird erst geladen, wenn wirklich ein Bericht entsteht; fehlt dabei die Internetverbindung, sagt die App das deutlich."
         ]
       },
       {
         title: "Auswertungen",
         items: [
-          "Spieler-Steckbrief über alle Saisons: Einsätze, Minuten, Tore, Karten, Ausfälle und die Bilanz beim Verein.",
           "Karriere-Zahlen hängen am Spieler, nicht an einer Tabellenspalte — verrutschen können sie nicht mehr.",
           "Jubiläums-Hinweis vor dem nächsten Spiel: wer vor seinem 50., 100., 650. Spiel oder einem runden Tor steht.",
           "Einsatzquote, Startelf-Quote und verpasste Spiele nach Grund.",
           "Team-Auswertung: Punkteschnitt, Heim- und Auswärtsbilanz, Tore nach Spielabschnitten, Zuschauerschnitt und die Bilanz je Formation."
+        ]
+      },
+      {
+        title: "Verwaltung",
+        items: [
+          "Mannschaften, Saisons, Wettbewerbe und den Kader der Saison pflegen; eine neue Saison kann den Kader der alten übernehmen.",
+          "Zu jedem Spieler lassen sich Position, Nummer und die Startwerte der Vereinsbilanz hinterlegen — die Spiele und Tore, die vor dieser App gelaufen sind.",
+          "Aus der alten Excel übernommene Tore und Gelbe Karten, die dort nur als Saison-Summe standen, stehen als „Nachträge ohne Spielzuordnung“ offen dabei. Sie zählen in alle Bilanzen mit, hängen aber an keinem einzelnen Spiel.",
+          "Ein Datenbestand lässt sich als Datei einlesen."
         ]
       },
       {
@@ -270,11 +206,12 @@ const APP_CHANGELOG = [
           "Sehen: alle Zahlen und Berichte, schreibgeschützt.",
           "Bearbeiten: Spiele erfassen und ändern, Word-Bericht erzeugen.",
           "Administrieren: Mannschaften, Saisons, Wettbewerbe, Kader, Karriere-Startwerte, Import und Löschen.",
-          "Der Reiter „Info“ ist für alle sichtbar."
+          "Der Reiter „Info“ steht jedem angemeldeten Nutzer offen.",
+          "Fällt die Anmeldung weg, während die App offen ist, räumt sie den Bildschirm samt dem Einsatz-Dialog daneben, statt Namen und Minuten im Hintergrund lesbar zu lassen."
         ]
       },
       {
-        title: "Daten & Speicherung",
+        title: "Daten und Speicherung",
         items: [
           "Gespeichert wird in der Vereins-Nextcloud über die zentrale Anmeldung der Tools-Übersicht — ein eigenes Passwort braucht es nicht.",
           "Ändern zwei Geräte gleichzeitig denselben Stand, erkennt die App das, lädt den fremden Stand nach und sagt Bescheid."
