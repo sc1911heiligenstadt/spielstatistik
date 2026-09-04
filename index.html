@@ -87,19 +87,19 @@
           <div class="card">
             <h2 id="spiel-detail-titel">Spiel</h2>
             <div class="form-grid">
-              <div class="form-field"><label>Wettbewerb</label><select id="sd-wettbewerb"></select></div>
-              <div class="form-field"><label>Runde / Spieltag</label><input type="text" id="sd-runde" placeholder="z. B. 3. ST" /></div>
-              <div class="form-field"><label>Nr.</label><input type="number" id="sd-nr" min="0" /></div>
-              <div class="form-field"><label>Datum</label><input type="date" id="sd-datum" /></div>
-              <div class="form-field"><label>Anstoß</label><input type="time" id="sd-anstoss" /></div>
-              <div class="form-field"><label>Heim / Auswärts</label>
+              <div class="form-field"><label for="sd-wettbewerb">Wettbewerb</label><select id="sd-wettbewerb"></select></div>
+              <div class="form-field"><label for="sd-runde">Runde / Spieltag</label><input type="text" id="sd-runde" placeholder="z. B. 3. ST" /></div>
+              <div class="form-field"><label for="sd-nr">Nr.</label><input type="number" id="sd-nr" min="0" /></div>
+              <div class="form-field"><label for="sd-datum">Datum</label><input type="date" id="sd-datum" /></div>
+              <div class="form-field"><label for="sd-anstoss">Anstoß</label><input type="time" id="sd-anstoss" /></div>
+              <div class="form-field"><label for="sd-heim">Heim / Auswärts</label>
                 <select id="sd-heim"><option value="1">Heimspiel</option><option value="0">Auswärtsspiel</option></select></div>
-              <div class="form-field"><label>Gegner</label><input type="text" id="sd-gegner" /></div>
-              <div class="form-field"><label>Ort</label><input type="text" id="sd-ort" placeholder="z. B. Sportplatz an der Wipper (Rasen)" /></div>
-              <div class="form-field"><label>Zuschauer</label><input type="number" id="sd-zuschauer" min="0" /></div>
-              <div class="form-field"><label>Spieldauer (Min.)</label><input type="number" id="sd-dauer" min="1" /></div>
-              <div class="form-field wide"><label>Schiedsrichter (mit Semikolon trennen)</label><input type="text" id="sd-schiri" placeholder="Name; Assistent; Assistent" /></div>
-              <div class="form-field wide"><label>Notiz (nur intern, steht nicht im Bericht)</label><input type="text" id="sd-notiz" /></div>
+              <div class="form-field"><label for="sd-gegner">Gegner</label><input type="text" id="sd-gegner" /></div>
+              <div class="form-field"><label for="sd-ort">Ort</label><input type="text" id="sd-ort" placeholder="z. B. Sportplatz an der Wipper (Rasen)" /></div>
+              <div class="form-field"><label for="sd-zuschauer">Zuschauer</label><input type="number" id="sd-zuschauer" min="0" /></div>
+              <div class="form-field"><label for="sd-dauer">Spieldauer (Min.)</label><input type="number" id="sd-dauer" min="1" /></div>
+              <div class="form-field wide"><label for="sd-schiri">Schiedsrichter (mit Semikolon trennen)</label><input type="text" id="sd-schiri" placeholder="Name; Assistent; Assistent" /></div>
+              <div class="form-field wide"><label for="sd-notiz">Notiz (nur intern, steht nicht im Bericht)</label><input type="text" id="sd-notiz" /></div>
             </div>
             <p class="muted" id="sd-ergebnis-info"></p>
           </div>
@@ -269,9 +269,9 @@
         <div class="card">
           <h2>Saison</h2>
           <div class="form-grid">
-            <div class="form-field"><label>Bezeichnung</label><input type="text" id="vw-saison-name" placeholder="2026/27" /></div>
-            <div class="form-field"><label>Liga</label><input type="text" id="vw-saison-liga" placeholder="Thüringenliga" /></div>
-            <div class="form-field"><label>Regel-Spieldauer (Min.)</label><input type="number" id="vw-saison-dauer" min="1" /></div>
+            <div class="form-field"><label for="vw-saison-name">Bezeichnung</label><input type="text" id="vw-saison-name" placeholder="2026/27" /></div>
+            <div class="form-field"><label for="vw-saison-liga">Liga</label><input type="text" id="vw-saison-liga" placeholder="Thüringenliga" /></div>
+            <div class="form-field"><label for="vw-saison-dauer">Regel-Spieldauer (Min.)</label><input type="number" id="vw-saison-dauer" min="1" /></div>
           </div>
           <div class="btn-row admin-only hidden" style="justify-content:flex-start;">
             <button class="btn small" id="btn-saison-neu">Neue Saison…</button>
@@ -388,11 +388,11 @@
       <div class="modal-body">
         <p class="muted" id="zelle-kontext" style="margin-bottom:14px;"></p>
         <div class="form-grid">
-          <div class="form-field"><label>Rolle</label><select id="zm-rolle"></select></div>
-          <div class="form-field" id="zm-feld-ein"><label>Eingewechselt in Minute</label><input type="number" id="zm-ein" min="0" /></div>
-          <div class="form-field" id="zm-feld-aus"><label>Ausgewechselt in Minute</label><input type="number" id="zm-aus" min="0" placeholder="leer = bis zum Ende" /></div>
-          <div class="form-field" id="zm-feld-grund"><label>Grund</label><select id="zm-grund"></select></div>
-          <div class="form-field wide" id="zm-feld-grundtext"><label>Notiz zum Grund</label><input type="text" id="zm-grundtext" /></div>
+          <div class="form-field"><label for="zm-rolle">Rolle</label><select id="zm-rolle"></select></div>
+          <div class="form-field" id="zm-feld-ein"><label for="zm-ein">Eingewechselt in Minute</label><input type="number" id="zm-ein" min="0" /></div>
+          <div class="form-field" id="zm-feld-aus"><label for="zm-aus">Ausgewechselt in Minute</label><input type="number" id="zm-aus" min="0" placeholder="leer = bis zum Ende" /></div>
+          <div class="form-field" id="zm-feld-grund"><label for="zm-grund">Grund</label><select id="zm-grund"></select></div>
+          <div class="form-field wide" id="zm-feld-grundtext"><label for="zm-grundtext">Notiz zum Grund</label><input type="text" id="zm-grundtext" /></div>
         </div>
         <p class="muted" id="zm-hinweis"></p>
       </div>
