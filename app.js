@@ -56,16 +56,30 @@ function normWettbewerb(w) {
     zaehltKarriere: w.zaehltKarriere !== false
   };
 }
-function normSpiel(s, wettbewerbIds, kaderIds) {
+// ⚠️ Der dritte Parameter ist die GLOBALE Spielerliste, NICHT der Saisonkader.
+// Bis 2026-09-06 wurde hier gegen `saison.kader` gefiltert. Damit löschte ein
+// einziger Haken weg unter Verwaltung → „Kader dieser Saison" in JEDEM Spiel
+// der Saison Einsatz und Ausfallgrund, Gelbe/Rote Karten, den Torschützen, die
+// Vorlage, die Wechselseite und den Platz auf dem Spielfeld — unwiderruflich,
+// ohne Rückfrage, und wenige hundert Millisekunden später (persist-Debounce)
+// stand der Verlust in der Nextcloud-Datei. Der Erklärtext daneben
+// (index.html:292) versprach dabei eine reine Sichtbarkeitswirkung.
+//
+// Kaderzugehörigkeit ist eine ANZEIGEFRAGE, kein Datenfilter: gefiltert wird
+// beim Rendern (kaderSpieler(), Matrix, Auswertung, Spieler-Reiter). Verwaiste
+// Verweise räumt weiterhin das Löschen eines Spielers auf — dort verschwindet
+// die id aus appData.spieler und damit aus spielerIds. Dieser Weg fragt vorher
+// ausdrücklich nach (spielerLoeschen()).
+function normSpiel(s, wettbewerbIds, spielerIds) {
   const einsaetze = {};
   const roh = s.einsaetze || {};
   for (const id of Object.keys(roh)) {
-    if (kaderIds.indexOf(id) === -1) continue;   // Spieler nicht mehr im Saisonkader
+    if (spielerIds.indexOf(id) === -1) continue;   // Spieler ganz aus dem Stamm gelöscht
     const e = roh[id] || {};
     const rolle = ROLLEN.some((r) => r.id === e.rolle) ? e.rolle : "fehlt";
     einsaetze[id] = { rolle: rolle, grund: e.grund || "", grundText: e.grundText || "" };
   }
-  const gueltig = (id) => id && kaderIds.indexOf(id) !== -1 ? id : null;
+  const gueltig = (id) => id && spielerIds.indexOf(id) !== -1 ? id : null;
   return {
     id: s.id || uuid(),
     wettbewerbId: wettbewerbIds.indexOf(s.wettbewerbId) !== -1 ? s.wettbewerbId : wettbewerbIds[0],
@@ -90,7 +104,7 @@ function normSpiel(s, wettbewerbIds, kaderIds) {
       .map((k) => ({ minute: nummer(k.minute), spielerId: gueltig(k.spielerId), art: KARTEN_ARTEN.some((a) => a.id === k.art) ? k.art : "gelb" }))
       .filter((k) => k.spielerId),
     aufstellung: { feld: (s.aufstellung && Array.isArray(s.aufstellung.feld) ? s.aufstellung.feld : [])
-      .filter((p) => p && kaderIds.indexOf(p.spielerId) !== -1)
+      .filter((p) => p && spielerIds.indexOf(p.spielerId) !== -1)
       .map((p) => ({ spielerId: p.spielerId, x: nummer(p.x), y: nummer(p.y) })) },
     notiz: s.notiz || "",
     importHinweis: s.importHinweis || ""
@@ -109,7 +123,8 @@ function normSaison(s, mannschaftIds, spielerIds) {
     spieldauer: nummer(s.spieldauer) > 0 ? nummer(s.spieldauer) : STANDARD_SPIELDAUER,
     kader: kader,
     wettbewerbe: wettbewerbe,
-    spiele: (Array.isArray(s.spiele) ? s.spiele : []).map((sp) => normSpiel(sp, wIds, kader)),
+    // ⚠️ spielerIds, nicht kader — siehe Kommentar über normSpiel().
+    spiele: (Array.isArray(s.spiele) ? s.spiele : []).map((sp) => normSpiel(sp, wIds, spielerIds)),
     nachtraege: (Array.isArray(s.nachtraege) ? s.nachtraege : [])
       .filter((n) => spielerIds.indexOf(n.spielerId) !== -1 && wIds.indexOf(n.wettbewerbId) !== -1)
       .map((n) => ({
@@ -448,10 +463,20 @@ function formationAnwenden() {
 }
 
 // ---------- Wechsel ----------
+// ⚠️ Ein bereits erfasster Spieler bleibt in der Auswahl stehen, auch wenn er
+// nicht (mehr) im Saisonkader ist. Sonst fände der Browser den gespeicherten
+// Wert nicht, zeigte den ersten Eintrag der Liste — und der nächste
+// change-Event schriebe still jemand anderen (oder nichts) in Tor, Karte oder
+// Wechsel. Seit die Kaderzugehörigkeit die Ereignisse nicht mehr löscht
+// (siehe normSpiel), kann dieser Fall regulär auftreten.
 function spielerOptionen(ids, gewaehlt, leerText) {
   const map = spielerById();
-  return `<option value="">${escapeHtml(leerText || "—")}</option>` + ids.map((id) =>
-    `<option value="${escapeHtml(id)}"${id === gewaehlt ? " selected" : ""}>${escapeHtml(spielerName(map[id]))}</option>`).join("");
+  const liste = gewaehlt && ids.indexOf(gewaehlt) === -1 && map[gewaehlt] ? [gewaehlt].concat(ids) : ids;
+  return `<option value="">${escapeHtml(leerText || "—")}</option>` + liste.map((id) => {
+    const ausserhalb = ids.indexOf(id) === -1;
+    const name = spielerName(map[id]) + (ausserhalb ? " (nicht im Saisonkader)" : "");
+    return `<option value="${escapeHtml(id)}"${id === gewaehlt ? " selected" : ""}>${escapeHtml(name)}</option>`;
+  }).join("");
 }
 function renderWechselListe() {
   const sp = offenesSpiel();
@@ -643,7 +668,7 @@ function neuesSpiel() {
     wettbewerbId: w.id, nr: nr,
     runde: w.art === "liga" ? nr + ". ST" : nr + ". Runde",
     heim: true, formation: DEFAULT_FORMATION
-  }, s.wettbewerbe.map((x) => x.id), s.kader);
+  }, s.wettbewerbe.map((x) => x.id), appData.spieler.map((p) => p.id));
   s.spiele.push(spiel);
   persist();
   oeffneSpiel(spiel.id);

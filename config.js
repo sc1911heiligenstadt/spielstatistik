@@ -132,6 +132,20 @@ const VEREIN_NAME = "Heiligenstadt";
 
 const APP_CHANGELOG = [
   {
+    version: "1.2",
+    groups: [
+      {
+        title: "Ein Haken im Saisonkader löscht keine Einsätze mehr",
+        items: [
+          "Unter Verwaltung → „Kader dieser Saison“ löschte ein weggenommener Haken bis jetzt in jedem Spiel der Saison alles, was an diesem Spieler hing: Einsatz und Ausfallgrund, Gelbe und Rote Karten, den Torschützen (das Tor blieb anonym stehen), die Vorlage, die Wechselseite und den Platz auf dem Spielfeld. Ohne Rückfrage, und den Haken wieder zu setzen holte nichts zurück.",
+          "Der Haken steuert jetzt nur noch, was der Erklärtext daneben immer schon versprochen hat: die Sichtbarkeit in Matrix und Spielbericht. Die erfassten Ereignisse bleiben stehen und sind vollständig wieder da, sobald der Haken zurückkommt.",
+          "Wer wirklich alles loswerden will, nimmt weiterhin „Spieler löschen“ in den Stammdaten — dort steht die Rückfrage, die dazugehört.",
+          "In den Auswahlfeldern für Torschütze, Vorlage und Karte bleibt ein bereits erfasster Spieler stehen, auch wenn er nicht mehr im Saisonkader ist; er ist dort als „nicht im Saisonkader“ gekennzeichnet. Sonst hätte die nächste Änderung an derselben Zeile still jemand anderen eingetragen."
+        ]
+      }
+    ]
+  },
+  {
     version: "1.1",
     groups: [
       {
