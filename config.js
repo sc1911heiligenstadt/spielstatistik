@@ -132,6 +132,18 @@ const VEREIN_NAME = "Heiligenstadt";
 
 const APP_CHANGELOG = [
   {
+    version: "1.1",
+    groups: [
+      {
+        title: "Einsatzquote",
+        items: [
+          "Die Einsatzquote im Spieler-Steckbrief zählt jetzt nur noch die Spiele mit, in denen der Spieler auch zum Kader gehörte. Vorher rechnete sie die ganze Saison gegen, sodass ein Winterzugang, der ab seinem Wechsel jede Minute gespielt hat, mit 50 % dastand.",
+          "Ein Hinweis an der Spaltenüberschrift sagt jetzt, worauf sich der Prozentwert bezieht."
+        ]
+      }
+    ]
+  },
+  {
     version: "1.0",
     groups: [
       {

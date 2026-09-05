@@ -164,11 +164,15 @@ const Stats = (() => {
     for (const s of spiele) {
       if (!istGespielt(s)) continue;
       const d = spieldauer(s, saison);
-      b.moeglicheSpiele++;
-      b.moeglicheMinuten += d;
 
       const e = einsatz(s, spielerId, d);
       if (e) {
+        // Der Nenner der Einsatzquote zaehlt nur Spiele, in denen der Spieler
+        // ueberhaupt zum Kader gehoerte. `einsatz()` liefert sonst null (im
+        // alten Excel das "/"). Sonst stuende ein Winterzugang, der ab seinem
+        // Wechsel jede Minute gespielt hat, bei 50 %.
+        b.moeglicheSpiele++;
+        b.moeglicheMinuten += d;
         if (e.unvollstaendig) b.unvollstaendig++;
         if (e.rolle === "start" || e.rolle === "ein") {
           if (!e.unvollstaendig) { b.spiele++; b.minuten += e.minuten; }

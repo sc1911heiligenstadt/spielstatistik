@@ -905,7 +905,7 @@ function renderSpielerDetail() {
           <thead><tr><th>Saison</th><th>Mannschaft</th><th>Wettbewerb</th>
             <th class="num">Spiele</th><th class="num">Startelf</th><th class="num">Minuten</th>
             <th class="num">Ein</th><th class="num">Aus</th><th class="num">Tore</th>
-            <th class="num">Vorlagen</th><th class="num">Einsatzquote</th></tr></thead>
+            <th class="num">Vorlagen</th><th class="num" title="Anteil der gespielten Minuten an den Minuten der Spiele, in denen der Spieler zum Kader gehörte.">Einsatzquote</th></tr></thead>
           <tbody>${saisonZeilen.map((z) => `<tr>
             <td class="strong">${escapeHtml(z.saison.bezeichnung)}</td>
             <td>${escapeHtml(z.mannschaft ? z.mannschaft.name : "—")}</td>
