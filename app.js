@@ -574,7 +574,7 @@ function renderToreListe() {
       </select>
       ${t.fuerUns || t.art === "eigentor"
         ? `<select data-feld="schuetzeId" title="Schütze">${spielerOptionen(kaderIds, t.schuetzeId, "— Schütze")}</select>`
-        : `<input type="text" data-feld="schuetzeName" value="${escapeHtml(t.schuetzeName)}" placeholder="Schütze (Gegner)" />`}
+        : `<input type="text" title="Schütze (Gegner)" data-feld="schuetzeName" value="${escapeHtml(t.schuetzeName)}" placeholder="Schütze (Gegner)" />`}
       <select data-feld="vorlageId" title="Vorlage">${spielerOptionen(kaderIds, t.vorlageId, "— Vorlage")}</select>
       <select data-feld="art">${TOR_ARTEN.map((a) => `<option value="${a.id}"${t.art === a.id ? " selected" : ""}>${escapeHtml(a.label)}</option>`).join("")}</select>
       <button class="icon-btn editor-only" data-remove="tore" title="Entfernen">×</button>
@@ -1057,12 +1057,12 @@ function renderVerwaltung() {
   el("stamm-table").querySelector("tbody").innerHTML = sortiert.map((p) => {
     const k = Stats.karriere(p, appData.saisons);
     return `<tr data-stamm="${escapeHtml(p.id)}">
-      <td><input type="text" data-feld="vorname" value="${escapeHtml(p.vorname)}" /></td>
-      <td><input type="text" data-feld="nachname" value="${escapeHtml(p.nachname)}" /></td>
-      <td><select data-feld="position"><option value="">—</option>${POSITIONEN.map((x) => `<option value="${x}"${p.position === x ? " selected" : ""}>${x}</option>`).join("")}</select></td>
-      <td class="num"><input type="text" class="mini" data-feld="nummer" value="${escapeHtml(p.nummer)}" /></td>
-      <td class="num"><input type="number" class="mini" data-feld="startSpiele" min="0" value="${p.start.spiele}" /></td>
-      <td class="num"><input type="number" class="mini" data-feld="startTore" min="0" value="${p.start.tore}" /></td>
+      <td><input type="text" aria-label="Vorname" data-feld="vorname" value="${escapeHtml(p.vorname)}" /></td>
+      <td><input type="text" aria-label="Nachname" data-feld="nachname" value="${escapeHtml(p.nachname)}" /></td>
+      <td><select aria-label="Position" data-feld="position"><option value="">—</option>${POSITIONEN.map((x) => `<option value="${x}"${p.position === x ? " selected" : ""}>${x}</option>`).join("")}</select></td>
+      <td class="num"><input type="text" aria-label="Rückennummer" class="mini" data-feld="nummer" value="${escapeHtml(p.nummer)}" /></td>
+      <td class="num"><input type="number" aria-label="Spiele vorher" class="mini" data-feld="startSpiele" min="0" value="${p.start.spiele}" /></td>
+      <td class="num"><input type="number" aria-label="Tore vorher" class="mini" data-feld="startTore" min="0" value="${p.start.tore}" /></td>
       <td class="num strong">${ein(k.spiele)} / ${ein(k.tore)}</td>
       <td><button class="icon-btn admin-only" data-remove-spieler="${escapeHtml(p.id)}" title="Spieler löschen">×</button></td>
     </tr>`;

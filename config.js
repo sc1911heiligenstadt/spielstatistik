@@ -132,6 +132,19 @@ const VEREIN_NAME = "Heiligenstadt";
 
 const APP_CHANGELOG = [
   {
+    version: "1.3",
+    groups: [
+      {
+        title: "Vorleseprogramme finden die Felder der Stammdaten-Tabelle",
+        items: [
+          "In der Spieler-Stammdatentabelle stehen sechs Felder je Zeile. Welche Spalte welche ist, stand nur im Tabellenkopf — ein Vorleseprogramm liest den nicht zu jeder Zelle mit vor.",
+          "Auch das Feld für den gegnerischen Torschützen hatte nur einen Platzhalter, während die Auswahlfelder daneben schon einen Namen trugen.",
+          "Alle sieben tragen jetzt einen festen Namen. Am Bildschirm ändert sich nichts."
+        ]
+      }
+    ]
+  },
+  {
     version: "1.2",
     groups: [
       {
