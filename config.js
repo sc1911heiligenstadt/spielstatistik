@@ -130,7 +130,111 @@ const JUBILAEUM_TORE_SCHRITT = 25;
 
 const VEREIN_NAME = "Heiligenstadt";
 
+// Was die Spielstatistik kann -- steht im Info-Reiter als Karte "Funktionen".
+// WICHTIG: Das ist NICHT der Changelog. Hier steht der ZUSTAND ("der Spielstand
+// ergibt sich aus den Toren"), dort die Aenderung. Wer eine Funktion umbaut
+// oder abschaltet, zieht diesen Text mit -- und ebenso
+// E:\SC1911-Tools-Anleitung.txt, wo dasselbe ausfuehrlich steht.
+const APP_FUNKTIONEN = [
+  {
+    title: "Wofür die Spielstatistik da ist",
+    items: [
+      "Einsätze, Minuten, Tore und Karten der Mannschaften — Saison für Saison. Sie löst die Excel-Dateien „Statistik Saison …“ ab.",
+      "Ein Spiel wird genau einmal erfasst. Spiele, Minuten sowie Ein- und Auswechslungen rechnet die App daraus selbst aus; nichts wird doppelt getippt.",
+      "Mannschaft und Saison stehen in der Kopfzeile und sind umschaltbar."
+    ]
+  },
+  {
+    title: "Wettbewerbe",
+    items: [
+      "Wettbewerbe werden je Saison selbst angelegt: Liga, Landespokal, Testspiele, weitere Pokale. Jeder bekommt seine eigene Statistik.",
+      "Testspiele zählen nicht in die Vereins-Gesamtbilanz und nicht in den Reiter „Spieler“. Das ist je Wettbewerb einstellbar.",
+      "Zu sehen sind Testspiele beim einzelnen Spieler und in der Matrix, wenn man dort den Wettbewerb auswählt."
+    ]
+  },
+  {
+    title: "Ein Spiel erfassen",
+    items: [
+      "Eine Maske je Spiel: Startelf und Bank anhaken, Wechsel mit Minute, Tore mit Minute und Schütze, Karten, dazu je fehlendem Spieler ein Grund.",
+      "Die Aufstellung wird auf einem Spielfeld gesetzt: Formation auswählen, die Spieler landen auf den Plätzen und lassen sich verschieben.",
+      "Der Spielstand ergibt sich aus den erfassten Toren — ein falsch getipptes Ergebnis kann es gar nicht geben.",
+      "Ein Platzverweis beendet den Einsatz, zählt aber nicht als Auswechslung."
+    ]
+  },
+  {
+    title: "Reiter „Matrix“",
+    items: [
+      "Die gewohnte Tabelle Spieltag × Spieler mit „90“, „61(A)“ und „29(E)“ — nur dass die Summenzeilen sich selbst rechnen.",
+      "Einzelne Zellen lassen sich für Nachträge direkt in der Matrix ändern.",
+      "Ein Wechsel, dessen Gegenstück noch fehlt, wird als offen markiert statt stillschweigend geschluckt."
+    ]
+  },
+  {
+    title: "Reiter „Spieler“",
+    items: [
+      "Je Spieler eine Zeile: Spiele und Minuten der Saison, Tore, Ein- und Auswechslungen, Karten mit Gelb, Gelb-Rot und Rot, dazu Spiele und Tore beim Verein insgesamt.",
+      "Ein Klick öffnet den Steckbrief über alle Saisons: Einsätze, Minuten, Tore, Karten, Ausfälle und die Bilanz beim Verein."
+    ]
+  },
+  {
+    title: "Word-Spielbericht",
+    items: [
+      "Aus den erfassten Daten fällt der fertige Spielbericht als Word-Datei heraus: Ergebnis, Datum, Ort, Karten mit Minute, Tore, Wechsel, Schiedsrichter, Zuschauer und die Aufstellungsgrafik.",
+      "Bericht und Statistik können nicht auseinanderlaufen, weil beide aus derselben Eingabe stammen.",
+      "Ausfallgründe wie „verletzt“ oder „krank“ stehen nie im Bericht und nie im Ausdruck.",
+      "Die ZIP-Bibliothek für die Word-Datei wird erst geladen, wenn wirklich ein Bericht entsteht. Fehlt dabei die Internetverbindung, sagt die App das deutlich."
+    ]
+  },
+  {
+    title: "Auswertungen",
+    items: [
+      "Zum Spieler: Einsatzquote, Startelf-Quote und verpasste Spiele nach Grund.",
+      "Zur Mannschaft: Punkteschnitt, Heim- und Auswärtsbilanz, Tore nach Spielabschnitten, Zuschauerschnitt und die Bilanz je Formation.",
+      "Ein Jubiläums-Hinweis meldet vor dem nächsten Spiel, wer vor seinem 50., 100. oder 650. Spiel oder vor einem runden Tor steht."
+    ]
+  },
+  {
+    title: "Verwaltung",
+    items: [
+      "Mannschaften, Saisons, Wettbewerbe und den Kader der Saison pflegen; eine neue Saison kann den Kader der alten übernehmen.",
+      "Zu jedem Spieler lassen sich Position, Nummer und die Startwerte der Vereinsbilanz hinterlegen — die Spiele und Tore, die vor dieser App gelaufen sind.",
+      "Tore und Gelbe Karten aus der alten Excel, die dort nur als Saison-Summe standen, stehen als „Nachträge ohne Spielzuordnung“ offen dabei. Sie zählen in alle Bilanzen mit, hängen aber an keinem einzelnen Spiel.",
+      "Ein aufbereiteter Datenbestand lässt sich als Datei einlesen; vorhandene Spieler werden dabei anhand des Namens zusammengeführt."
+    ]
+  },
+  {
+    title: "Wer was darf",
+    items: [
+      "Die App ist nur für eine festgelegte Gruppe überhaupt sichtbar — sie enthält Angaben zu Verletzung und Krankheit.",
+      "Sehen: alle Zahlen und Berichte, schreibgeschützt.",
+      "Bearbeiten: Spiele erfassen und ändern, Word-Bericht erzeugen.",
+      "Administrieren: Mannschaften, Saisons, Wettbewerbe, Kader, Karriere-Startwerte, Import und Löschen."
+    ]
+  },
+  {
+    title: "Daten und Speicherung",
+    items: [
+      "Gespeichert wird in der Vereins-Nextcloud über die zentrale Anmeldung der Tools-Übersicht; ein eigenes Passwort braucht es nicht.",
+      "Ändern zwei Geräte gleichzeitig denselben Stand, erkennt die App das, lädt den fremden Stand nach und sagt Bescheid.",
+      "Fällt die Anmeldung weg, während die App offen ist, räumt sie den Bildschirm samt dem Einsatz-Dialog daneben, statt Namen und Minuten lesbar stehen zu lassen."
+    ]
+  }
+];
+
 const APP_CHANGELOG = [
+  {
+    version: "1.4",
+    groups: [
+      {
+        title: "Im Info-Reiter steht jetzt, was die App kann",
+        items: [
+          "Die Liste der Änderungen und die Versionsnummer sind aus dem Info-Reiter verschwunden.",
+          "Stattdessen steht dort die Karte „Funktionen“: was die Spielstatistik kann, nach Themen geordnet.",
+          "Was sich geändert hat, steht weiterhin in den Neuigkeiten auf der Startseite der Tools-Übersicht."
+        ]
+      }
+    ]
+  },
   {
     version: "1.3",
     groups: [
